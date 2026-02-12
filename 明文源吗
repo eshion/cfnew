@@ -1346,8 +1346,10 @@
         subscriptionUrl.pathname = subscriptionUrl.pathname.replace(/\/sub$/, '') + '/sub';
         subscriptionUrl.searchParams.set('target', 'base64');
         const encodedUrl = encodeURIComponent(subscriptionUrl.toString());
-        const converterUrl = `${scu}?target=clash&url=${encodedUrl}&insert=false&emoji=true&list=false&xudp=false&udp=false&tfo=false&expand=true&scv=false&fdn=false&new_name=true`;
-        
+        // 先判断scu是否包含问号，决定参数分隔符是?还是&
+        const separator = scu.includes('?') ? '&' : '?';
+        // 使用动态分隔符拼接URL
+        const converterUrl = `${scu}${separator}target=clash&url=${encodedUrl}&insert=false&emoji=true&list=false&xudp=false&udp=false&tfo=false&expand=true&scv=false&fdn=false&new_name=true`;      
         try {
             const response = await fetch(converterUrl);
             if (!response.ok) {
